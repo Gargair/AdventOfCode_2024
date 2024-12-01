@@ -32,7 +32,7 @@ namespace AdventOfCode
             timer.Stop();
             Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Load Data: {timer.Elapsed}");
 
-            timer.Start();
+            timer.Restart();
             long result = solution.Part1();
             timer.Stop();
             Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 01: {timer.Elapsed}\t{result}");
