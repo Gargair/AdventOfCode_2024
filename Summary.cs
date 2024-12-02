@@ -9,7 +9,7 @@ namespace AdventOfCode
             Stopwatch timer = new();
             timer.Start();
             StartSolution(new Day01_Solution());
-            //StartSolution(new Day02_Solution());
+            StartSolution(new Day02_Solution());
             //StartSolution(new Day03_Solution());
             //StartSolution(new Day04_Solution());
             //StartSolution(new Day05_Solution());
