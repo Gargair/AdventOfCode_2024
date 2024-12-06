@@ -13,7 +13,7 @@ namespace AdventOfCode
             StartSolution(new Day03_Solution());
             StartSolution(new Day04_Solution());
             StartSolution(new Day05_Solution());
-            //StartSolution(new Day06_Solution());
+            StartSolution(new Day06_Solution());
             //StartSolution(new Day07_Solution());
             //StartSolution(new Day08_Solution());
 
