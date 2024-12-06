@@ -22,13 +22,16 @@
             {
                 for (int j = 0; j < block[i].Length; j++)
                 {
-                    for (int dirX = -1; dirX <= 1; dirX++)
+                    if (block[i][j] == 'X')
                     {
-                        for (int dirY = -1; dirY <= 1; dirY++)
+                        for (int dirX = -1; dirX <= 1; dirX++)
                         {
-                            if (IsInDirection(block, i, j, dirX, dirY, "XMAS"))
+                            for (int dirY = -1; dirY <= 1; dirY++)
                             {
-                                count++;
+                                if (IsInDirection(block, i, j, dirX, dirY, "XMAS"))
+                                {
+                                    count++;
+                                }
                             }
                         }
                     }
@@ -48,21 +51,24 @@
             {
                 for (int j = 0; j < block[i].Length; j++)
                 {
-                    if (IsInDirection(block, i - 1, j - 1, 1, 1, "MAS") && IsInDirection(block, i + 1, j - 1, -1, 1, "MAS"))
+                    if (block[i][j] == 'A')
                     {
-                        count++;
-                    }
-                    else if (IsInDirection(block, i - 1, j - 1, 1, 1, "MAS") && IsInDirection(block, i - 1, j + 1, 1, -1, "MAS"))
-                    {
-                        count++;
-                    }
-                    else if (IsInDirection(block, i + 1, j - 1, -1, 1, "MAS") && IsInDirection(block, i + 1, j + 1, -1, -1, "MAS"))
-                    {
-                        count++;
-                    }
-                    else if(IsInDirection(block, i-1, j+1, 1, -1, "MAS") && IsInDirection(block, i+1, j+1, -1, -1, "MAS"))
-                    {
-                        count++;
+                        if (IsInDirection(block, i - 1, j - 1, 1, 1, "MAS") && IsInDirection(block, i + 1, j - 1, -1, 1, "MAS"))
+                        {
+                            count++;
+                        }
+                        else if (IsInDirection(block, i - 1, j - 1, 1, 1, "MAS") && IsInDirection(block, i - 1, j + 1, 1, -1, "MAS"))
+                        {
+                            count++;
+                        }
+                        else if (IsInDirection(block, i + 1, j - 1, -1, 1, "MAS") && IsInDirection(block, i + 1, j + 1, -1, -1, "MAS"))
+                        {
+                            count++;
+                        }
+                        else if (IsInDirection(block, i - 1, j + 1, 1, -1, "MAS") && IsInDirection(block, i + 1, j + 1, -1, -1, "MAS"))
+                        {
+                            count++;
+                        }
                     }
                 }
             }
