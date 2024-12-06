@@ -27,7 +27,7 @@ namespace AdventOfCode
         {
             if (block == null)
             {
-                throw new InvalidOperationException("You have to call LoadData() before Part1()");
+                throw new InvalidOperationException("You have to call LoadData() before Part2()");
             }
             // Take actual path
             DeterminePathAndLoop(block, false, (current, blockWidth, deltaX, deltaY) => current[0] * blockWidth + current[1], out List<long> positionsVisited);

@@ -44,7 +44,7 @@
         {
             if (block == null)
             {
-                throw new InvalidOperationException("You have to call LoadData() before Part1()");
+                throw new InvalidOperationException("You have to call LoadData() before Part2()");
             }
             long count = 0;
             for (int i = 0; i < block.Length; i++)

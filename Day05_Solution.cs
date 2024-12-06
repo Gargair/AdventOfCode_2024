@@ -53,7 +53,7 @@ internal class Day05_Solution : IDaySolution
     {
         if (pageOrdering == null || updates == null)
         {
-            throw new InvalidOperationException("You have to call LoadData() before Part1()");
+            throw new InvalidOperationException("You have to call LoadData() before Part2()");
         }
         long count = 0;
         foreach (int[] upd in updates)
