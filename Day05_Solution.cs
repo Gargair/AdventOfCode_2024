@@ -1,98 +1,74 @@
-﻿using AdventOfCode;
-
-internal class Day05_Solution : IDaySolution
+﻿namespace AdventOfCode
 {
-    public Day05_Solution() { }
-
-    List<int[]>? pageOrdering;
-    List<int[]>? updates;
-
-    public void LoadData()
+    internal class Day05_Solution : IDaySolution
     {
-        pageOrdering = [];
-        updates = [];
-        bool ordering = true;
-        foreach (string line in lines)
-        {
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                ordering = false;
-                continue;
-            }
-            if (ordering)
-            {
-                int[] ord = line.Split('|').Select(c => int.Parse(c)).ToArray();
-                pageOrdering.Add(ord);
-            }
-            else
-            {
-                int[] upd = line.Split(',').Select(c => int.Parse(c)).ToArray();
-                updates.Add(upd);
-            }
-        }
-    }
+        public Day05_Solution() { }
 
-    public long Part1()
-    {
-        if (pageOrdering == null || updates == null)
-        {
-            throw new InvalidOperationException("You have to call LoadData() before Part1()");
-        }
-        long count = 0;
-        foreach (int[] upd in updates)
-        {
-            if (IsValidOrder(upd, pageOrdering))
-            {
-                count += upd[(upd.Length - 1) / 2];
-            }
-        }
-        return count;
-    }
+        List<int[]>? pageOrdering;
+        List<int[]>? updates;
 
-    public long Part2()
-    {
-        if (pageOrdering == null || updates == null)
+        public void LoadData()
         {
-            throw new InvalidOperationException("You have to call LoadData() before Part2()");
-        }
-        long count = 0;
-        foreach (int[] upd in updates)
-        {
-            if (!IsValidOrder(upd, pageOrdering))
+            pageOrdering = [];
+            updates = [];
+            bool ordering = true;
+            foreach (string line in lines)
             {
-                OrderUpdate(upd, pageOrdering);
-                count += upd[(upd.Length - 1) / 2];
-            }
-        }
-        return count;
-    }
-
-    private static bool IsValidOrder(int[] update, List<int[]> pageOrdering)
-    {
-        for (int i = 0; i < update.Length; i++)
-        {
-            int second = update[i];
-            for (int j = 0; j < i; j++)
-            {
-                int first = update[j];
-                foreach (int[] ord in pageOrdering)
+                if (string.IsNullOrWhiteSpace(line))
                 {
-                    if (ord[0] == second && ord[1] == first)
-                    {
-                        return false;
-                    }
+                    ordering = false;
+                    continue;
+                }
+                if (ordering)
+                {
+                    int[] ord = line.Split('|').Select(c => int.Parse(c)).ToArray();
+                    pageOrdering.Add(ord);
+                }
+                else
+                {
+                    int[] upd = line.Split(',').Select(c => int.Parse(c)).ToArray();
+                    updates.Add(upd);
                 }
             }
         }
-        return true;
-    }
 
-    private static void OrderUpdate(int[] update, List<int[]> pageOrdering)
-    {
-        bool reordered = true;
-        while (reordered)
+        public long Part1()
         {
-            reordered = false;
+            if (pageOrdering == null || updates == null)
+            {
+                throw new InvalidOperationException("You have to call LoadData() before Part1()");
+            }
+            long count = 0;
+            foreach (int[] upd in updates)
+            {
+                if (IsValidOrder(upd, pageOrdering))
+                {
+                    count += upd[(upd.Length - 1) / 2];
+                }
+            }
+            return count;
+        }
+
+        public long Part2()
+        {
+            if (pageOrdering == null || updates == null)
+            {
+                throw new InvalidOperationException("You have to call LoadData() before Part2()");
+            }
+            long count = 0;
+            foreach (int[] upd in updates)
+            {
+                if (!IsValidOrder(upd, pageOrdering))
+                {
+                    OrderUpdate(upd, pageOrdering);
+                    count += upd[(upd.Length - 1) / 2];
+                }
+            }
+            return count;
+        }
+
+        private static bool IsValidOrder(int[] update, List<int[]> pageOrdering)
+        {
             for (int i = 0; i < update.Length; i++)
             {
                 int second = update[i];
@@ -103,20 +79,44 @@ internal class Day05_Solution : IDaySolution
                     {
                         if (ord[0] == second && ord[1] == first)
                         {
-                            reordered |= true;
-                            for (int k = j; k < i; k++)
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        private static void OrderUpdate(int[] update, List<int[]> pageOrdering)
+        {
+            bool reordered = true;
+            while (reordered)
+            {
+                reordered = false;
+                for (int i = 0; i < update.Length; i++)
+                {
+                    int second = update[i];
+                    for (int j = 0; j < i; j++)
+                    {
+                        int first = update[j];
+                        foreach (int[] ord in pageOrdering)
+                        {
+                            if (ord[0] == second && ord[1] == first)
                             {
-                                update[k] = update[k + 1];
+                                reordered = true;
+                                for (int k = j; k < i; k++)
+                                {
+                                    update[k] = update[k + 1];
+                                }
+                                update[i] = first;
                             }
-                            update[i] = first;
                         }
                     }
                 }
             }
         }
-    }
 
-    private static readonly string[] lines = @"87|51
+        private static readonly string[] lines = @"87|51
 88|11
 88|27
 16|32
@@ -1478,5 +1478,5 @@ internal class Day05_Solution : IDaySolution
 88,79,84,67,26,51,17
 96,88,56,47,67,58,79,34,51,76,72,43,14,45,82,87,44,26,84,75,77
 38,33,65,12,78,63,52,22,27,11,31,93,28,55,24,16,97,29,76,77,56,43,47".Split(Environment.NewLine);
-
+    }
 }

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode
 {
     internal class Day06_Solution : IDaySolution
     {
