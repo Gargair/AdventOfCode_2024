@@ -23,7 +23,7 @@ namespace AdventOfCode
             foreach (var eq in equations)
             {
                 long shouldResult = eq[0];
-                if (IsValidPart1(eq, shouldResult, 0, 1))
+                if (IsValidPart1(eq, shouldResult, eq[1], 2))
                 {
                     sum += shouldResult;
                 }
@@ -41,7 +41,7 @@ namespace AdventOfCode
             foreach (var eq in equations)
             {
                 long shouldResult = eq[0];
-                if (IsValidPart2(eq, shouldResult, 0, 1))
+                if (IsValidPart2(eq, shouldResult, eq[1], 2))
                 {
                     sum += shouldResult;
                 }
