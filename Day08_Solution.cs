@@ -1,6 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode
 {
     internal class Day08_Solution : IDaySolution
     {

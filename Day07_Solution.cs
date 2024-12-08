@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode
 {
     internal class Day07_Solution : IDaySolution
     {
