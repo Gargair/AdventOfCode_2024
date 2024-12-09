@@ -16,12 +16,13 @@ namespace AdventOfCode
             StartSolution(new Day06_Solution());
             StartSolution(new Day07_Solution());
             StartSolution(new Day08_Solution());
+            StartSolution(new Day09_Solution());
 
             timer.Stop();
             Console.WriteLine($"[{DateTime.Now}]: Total: {timer.Elapsed}");
         }
 
-        private static void StartSolution(IDaySolution solution)
+        private static void StartSolution(IDaySolution solution, Parts parts = Parts.Part1 | Parts.Part2)
         {
             string solutionName = solution.GetType().Name;
             Console.WriteLine($"[{DateTime.Now}]: {solutionName}");
@@ -32,17 +33,29 @@ namespace AdventOfCode
             timer.Stop();
             Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Load Data: {timer.Elapsed}");
 
-            timer.Restart();
-            long result = solution.Part1();
-            timer.Stop();
-            Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 01: {timer.Elapsed}\t{result}");
+            if ((parts & Parts.Part1) != 0)
+            {
+                timer.Restart();
+                long result = solution.Part1();
+                timer.Stop();
+                Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 01: {timer.Elapsed}\t{result}");
+            }
 
-            timer.Restart();
-            result = solution.Part2();
-            timer.Stop();
-            Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 02: {timer.Elapsed}\t{result}");
+            if ((parts & Parts.Part2) != 0)
+            {
+                timer.Restart();
+                long result = solution.Part2();
+                timer.Stop();
+                Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 02: {timer.Elapsed}\t{result}");
+            }
 
             Console.WriteLine();
+        }
+
+        private enum Parts
+        {
+            Part1 = 1,
+            Part2 = 2
         }
     }
 }
