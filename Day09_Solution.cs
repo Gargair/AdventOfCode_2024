@@ -6,20 +6,11 @@ namespace AdventOfCode
     {
         public Day09_Solution() { }
 
-        List<int>? blocks;
         string? idNumber;
 
         public void LoadData()
         {
-            blocks = new List<int>();
             idNumber = lines;
-            //for (int i = 0; i < idNumber.Length; i++)
-            //{
-            //    if (i % 2 == 0)
-            //    {
-            //        blocks.Add(idNumber[i]);
-            //    }
-            //}
         }
 
         public long Part1()
@@ -138,6 +129,7 @@ namespace AdventOfCode
                 }
                 leftIndex++;
             }
+            // 6436819084274
             return sum;
         }
 
