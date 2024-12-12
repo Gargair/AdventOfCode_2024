@@ -1,25 +1,16 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day11_Solution : IDaySolution
+    internal class Day11_Solution : IDaySolutionUpdate<List<long>>
     {
-        public Day11_Solution() { }
-
-        List<long> stones;
-        Dictionary<Tuple<long, int>, long> cache;
-
-        public void LoadData()
+        public List<long> LoadData(string inputPath)
         {
-            stones = lines.Split(' ').Select(s => long.Parse(s)).ToList();
+            return File.ReadAllText(inputPath + "/Day11.txt").Split(' ').Select(s => long.Parse(s)).ToList();
         }
 
-        public long Part1()
+        public long Part1(List<long> stones)
         {
-            if (stones == null)
-            {
-                throw new InvalidOperationException("You have to call LoadData() before Part1()");
-            }
             long count = 0;
-            cache = [];
+            Dictionary<Tuple<long, int>, long> cache = [];
             for (int i = 0; i < stones.Count; i++)
             {
                 count += BlinkResultRec(stones[i], 25, cache);
@@ -27,14 +18,10 @@
             return count;
         }
 
-        public long Part2()
+        public long Part2(List<long> stones)
         {
-            if (stones == null)
-            {
-                throw new InvalidOperationException("You have to call LoadData() before Part1()");
-            }
             long count = 0;
-            cache = [];
+            Dictionary<Tuple<long, int>, long> cache = [];
             for (int i = 0; i < stones.Count; i++)
             {
                 count += BlinkResultRec(stones[i], 75, cache);
@@ -85,9 +72,5 @@
             }
             return count;
         }
-
-        private static readonly string lines = @"2 77706 5847 9258441 0 741 883933 12";
-
-        private static readonly string testinput = @"125 17";
     }
 }
