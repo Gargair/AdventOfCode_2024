@@ -35,6 +35,13 @@
         long Part2();
     }
 
+    public interface IDaySolutionUpdate<T>
+    {
+        T LoadData(string inputFolder);
+        long Part1(T input);
+        long Part2(T input);
+    }
+
     public static class DijkstraaSolver
     {
         public static void CalcDijkstraa(GraphNode start)

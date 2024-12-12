@@ -55,6 +55,34 @@ namespace AdventOfCode
             Console.WriteLine();
         }
 
+
+        private static void StartSolution<T>(IDaySolutionUpdate<T> solution, string inputPath = "Input", Parts parts = Parts.Part1 | Parts.Part2)
+        {
+            string solutionName = solution.GetType().Name;
+            Console.WriteLine($"[{DateTime.Now}]: {solutionName}");
+            Stopwatch timer = new();
+
+            if ((parts & Parts.Part1) != 0)
+            {
+                timer.Restart();
+                T input = solution.LoadData(inputPath);
+                long result = solution.Part1(input);
+                timer.Stop();
+                Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 01: {timer.Elapsed}\t{result}");
+            }
+
+            if ((parts & Parts.Part2) != 0)
+            {
+                timer.Restart();
+                T input = solution.LoadData(inputPath);
+                long result = solution.Part2(input);
+                timer.Stop();
+                Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 02: {timer.Elapsed}\t{result}");
+            }
+
+            Console.WriteLine();
+        }
+
         private enum Parts
         {
             Part1 = 1,
