@@ -8,4 +8,13 @@
     <StartupObject>AdventOfCode.Summary</StartupObject>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="Input\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Input_Test\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
