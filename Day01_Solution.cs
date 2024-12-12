@@ -1,9 +1,7 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day01_Solution : IDaySolutionUpdate<string[]>
+    internal class Day01_Solution : IDaySolution<string[]>
     {
-        public Day01_Solution() { }
-
         public string[] LoadData(string inputFolder)
         {
             return File.ReadAllLines(inputFolder + "/Day01.txt");

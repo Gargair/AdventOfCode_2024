@@ -28,14 +28,7 @@
         }
     }
 
-    public interface IDaySolution
-    {
-        void LoadData();
-        long Part1();
-        long Part2();
-    }
-
-    public interface IDaySolutionUpdate<T>
+    public interface IDaySolution<T>
     {
         T LoadData(string inputFolder);
         long Part1(T input);

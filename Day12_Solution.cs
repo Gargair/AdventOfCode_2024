@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day12_Solution : IDaySolutionUpdate<char[][]>
+    internal class Day12_Solution : IDaySolution<char[][]>
     {
         public char[][] LoadData(string inputPath)
         {

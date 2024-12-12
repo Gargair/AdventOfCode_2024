@@ -56,7 +56,7 @@ namespace AdventOfCode
         }
 
 
-        private static void StartSolution<T>(IDaySolutionUpdate<T> solution, string inputPath = "Input", Parts parts = Parts.Part1 | Parts.Part2)
+        private static void StartSolution<T>(IDaySolution<T> solution, string inputPath = "Input", Parts parts = Parts.Part1 | Parts.Part2)
         {
             string solutionName = solution.GetType().Name;
             Console.WriteLine($"[{DateTime.Now}]: {solutionName}");

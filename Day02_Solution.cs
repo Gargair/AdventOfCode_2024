@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day02_Solution : IDaySolutionUpdate<IEnumerable<int[]>>
+    internal class Day02_Solution : IDaySolution<IEnumerable<int[]>>
     {
         public IEnumerable<int[]> LoadData(string inputPath)
         {

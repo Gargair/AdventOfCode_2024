@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day11_Solution : IDaySolutionUpdate<List<long>>
+    internal class Day11_Solution : IDaySolution<List<long>>
     {
         public List<long> LoadData(string inputPath)
         {

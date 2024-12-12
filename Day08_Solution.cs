@@ -1,9 +1,7 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day08_Solution : IDaySolutionUpdate<char[][]>
+    internal class Day08_Solution : IDaySolution<char[][]>
     {
-        public Day08_Solution() { }
-
         public char[][] LoadData(string inputPath)
         {
             return File.ReadAllLines(inputPath + "/Day08.txt").Select(line => line.ToCharArray()).ToArray();

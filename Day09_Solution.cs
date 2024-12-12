@@ -2,7 +2,7 @@
 
 namespace AdventOfCode
 {
-    internal class Day09_Solution : IDaySolutionUpdate<string>
+    internal class Day09_Solution : IDaySolution<string>
     {
         public string LoadData(string inputPath)
         {
