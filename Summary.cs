@@ -25,37 +25,6 @@ namespace AdventOfCode
             Console.WriteLine($"[{DateTime.Now}]: Total: {timer.Elapsed}");
         }
 
-        private static void StartSolution(IDaySolution solution, Parts parts = Parts.Part1 | Parts.Part2)
-        {
-            string solutionName = solution.GetType().Name;
-            Console.WriteLine($"[{DateTime.Now}]: {solutionName}");
-            Stopwatch timer = new();
-
-            timer.Start();
-            solution.LoadData();
-            timer.Stop();
-            Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Load Data: {timer.Elapsed}");
-
-            if ((parts & Parts.Part1) != 0)
-            {
-                timer.Restart();
-                long result = solution.Part1();
-                timer.Stop();
-                Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 01: {timer.Elapsed}\t{result}");
-            }
-
-            if ((parts & Parts.Part2) != 0)
-            {
-                timer.Restart();
-                long result = solution.Part2();
-                timer.Stop();
-                Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 02: {timer.Elapsed}\t{result}");
-            }
-
-            Console.WriteLine();
-        }
-
-
         private static void StartSolution<T>(IDaySolution<T> solution, string inputPath = "Input", Parts parts = Parts.Part1 | Parts.Part2)
         {
             string solutionName = solution.GetType().Name;
