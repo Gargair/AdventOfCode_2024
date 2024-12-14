@@ -41,5 +41,49 @@
             }
             return [-1, -1];
         }
+
+        public static bool IsInDirection<T>(T[][] matrix, int startX, int startY, int deltaX, int deltaY, T[] toSearch)
+        {
+            for (int l = 0; l < toSearch.Length; l++)
+            {
+                int posX = startX + deltaX * l;
+                if (posX < 0 || posX >= matrix.Length)
+                {
+                    return false;
+                }
+                int posY = startY + deltaY * l;
+                if (posY < 0 || posY >= matrix[posX].Length)
+                {
+                    return false;
+                }
+                if (!EqualityComparer<T>.Default.Equals(matrix[posX][posY], toSearch[l]))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static bool IsInDirection<T>(T[,] matrix, int startX, int startY, int deltaX, int deltaY, T[] toSearch)
+        {
+            for (int l = 0; l < toSearch.Length; l++)
+            {
+                int posX = startX + deltaX * l;
+                if (posX < 0 || posX >= matrix.GetLength(0))
+                {
+                    return false;
+                }
+                int posY = startY + deltaY * l;
+                if (posY < 0 || posY >= matrix.GetLength(1))
+                {
+                    return false;
+                }
+                if (!EqualityComparer<T>.Default.Equals(matrix[posX, posY], toSearch[l]))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

@@ -80,19 +80,21 @@ namespace AdventOfCode
 
         public long Part2(Day14_Input input)
         {
-            char[,] space = new char[input.sizeY, input.sizeX];
-
             IEnumerable<Robot> robots = input.robots;
 
-            for (int i = 1; i <= input.sizeX * input.sizeY; i++)
+            int stepNumber = 0;
+
+            List<char?> treeStem = [];
+            for(int i = 0; i < 15; i++)
             {
-                for (int x = 0; x < space.GetLength(0); x++)
-                {
-                    for (int y = 0; y < space.GetLength(1); y++)
-                    {
-                        space[x, y] = '.';
-                    }
-                }
+                treeStem.Add('#');
+            }
+
+            char?[] toSearch = treeStem.ToArray();
+
+            Enumerable.Range(1, input.sizeX * input.sizeY).AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).Where(i =>
+            {
+                char?[,] space = new char?[input.sizeY, input.sizeX];
                 foreach (Robot robot in robots)
                 {
                     robot.positionX += robot.velocityX * i;
@@ -121,35 +123,28 @@ namespace AdventOfCode
                     {
                         if (space[x, y] == '#')
                         {
-                            bool found = true;
-                            for (int t = 1; t <= 15; t++)
+                            if (Helper.MatrixHelper.IsInDirection(space, x, y, 1, 0, toSearch))
                             {
-                                if (!Helper.MatrixHelper.IsInMatrix(space, x + t, y) || space[x + t, y] != '#')
-                                {
-                                    found = false;
-                                    break;
-                                }
-                            }
-                            if (found)
-                            {
-                                Console.WriteLine($"Step: {i}");
-                                for (int a = 0; a < space.GetLength(0); a++)
-                                {
-                                    for (int b = 0; b < space.GetLength(1); b++)
-                                    {
-                                        Console.Write(space[a, b]);
-                                    }
-                                    Console.WriteLine();
-                                }
-                                Console.WriteLine();
-                                return i;
+                                //Console.WriteLine($"Step: {i}");
+                                //for (int a = 0; a < space.GetLength(0); a++)
+                                //{
+                                //    for (int b = 0; b < space.GetLength(1); b++)
+                                //    {
+                                //        Console.Write(space[a, b] ?? '.');
+                                //    }
+                                //    Console.WriteLine();
+                                //}
+                                //Console.WriteLine();
+                                stepNumber = i;
+                                return true;
                             }
                         }
                     }
                 }
+                return false;
+            }).First();
 
-            }
-            return 0;
+            return stepNumber;
         }
 
         private static IEnumerable<Robot> ParseRobots(IEnumerable<string> lines)
