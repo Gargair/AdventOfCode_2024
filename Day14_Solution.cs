@@ -17,7 +17,7 @@ namespace AdventOfCode
             {
                 sizeX = int.Parse(lineMatch.Groups["sizeX"].Value),
                 sizeY = int.Parse(lineMatch.Groups["sizeY"].Value),
-                robots = ParseRobots(lines.Skip(1))
+                robots = ParseRobots(lines.Skip(1)).ToList()
             };
         }
 
@@ -33,43 +33,43 @@ namespace AdventOfCode
             IEnumerable<Robot> robots = input.robots;
             foreach (Robot robot in robots)
             {
-                robot.positionX += robot.velocityX * 100;
-                robot.positionY += robot.velocityY * 100;
-                while (robot.positionX >= input.sizeX)
+                int positionX = robot.positionX + robot.velocityX * 100;
+                int positionY = robot.positionY + robot.velocityY * 100;
+                while (positionX >= input.sizeX)
                 {
-                    robot.positionX -= input.sizeX;
+                    positionX -= input.sizeX;
                 }
-                while (robot.positionX < 0)
+                while (positionX < 0)
                 {
-                    robot.positionX += input.sizeX;
+                    positionX += input.sizeX;
                 }
-                while (robot.positionY >= input.sizeY)
+                while (positionY >= input.sizeY)
                 {
-                    robot.positionY -= input.sizeY;
+                    positionY -= input.sizeY;
                 }
-                while (robot.positionY < 0)
+                while (positionY < 0)
                 {
-                    robot.positionY += input.sizeY;
+                    positionY += input.sizeY;
                 }
 
-                if (robot.positionX < cutoffX)
+                if (positionX < cutoffX)
                 {
-                    if (robot.positionY < cutoffY)
+                    if (positionY < cutoffY)
                     {
                         quadrant1++;
                     }
-                    else if (robot.positionY > cutoffY)
+                    else if (positionY > cutoffY)
                     {
                         quadrant2++;
                     }
                 }
-                else if (robot.positionX > cutoffX)
+                else if (positionX > cutoffX)
                 {
-                    if (robot.positionY < cutoffY)
+                    if (positionY < cutoffY)
                     {
                         quadrant3++;
                     }
-                    else if (robot.positionY > cutoffY)
+                    else if (positionY > cutoffY)
                     {
                         quadrant4++;
                     }
@@ -85,59 +85,60 @@ namespace AdventOfCode
             int stepNumber = 0;
 
             List<char?> treeStem = [];
-            for(int i = 0; i < 15; i++)
+            for (int i = 0; i < 15; i++)
             {
                 treeStem.Add('#');
             }
+            char?[] toSearch = [.. treeStem];
 
-            char?[] toSearch = treeStem.ToArray();
-
-            Enumerable.Range(1, input.sizeX * input.sizeY).AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).Where(i =>
+            // After latest input.sizeX * input.sizeY steps all robots loop further. The solutions has to be found within this amount of steps.
+            Enumerable.Range(1, input.sizeX * input.sizeY).AsParallel()
+                .WithDegreeOfParallelism(Environment.ProcessorCount)
+                .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                .WithMergeOptions(ParallelMergeOptions.NotBuffered)
+                .Where(i =>
             {
                 char?[,] space = new char?[input.sizeY, input.sizeX];
                 foreach (Robot robot in robots)
                 {
-                    robot.positionX += robot.velocityX * i;
-                    robot.positionY += robot.velocityY * i;
-                    while (robot.positionX >= input.sizeX)
+                    int positionX = robot.positionX + robot.velocityX * i;
+                    int positionY = robot.positionY + robot.velocityY * i;
+                    while (positionX >= input.sizeX)
                     {
-                        robot.positionX -= input.sizeX;
+                        positionX -= input.sizeX;
                     }
-                    while (robot.positionX < 0)
+                    while (positionX < 0)
                     {
-                        robot.positionX += input.sizeX;
+                        positionX += input.sizeX;
                     }
-                    while (robot.positionY >= input.sizeY)
+                    while (positionY >= input.sizeY)
                     {
-                        robot.positionY -= input.sizeY;
+                        positionY -= input.sizeY;
                     }
-                    while (robot.positionY < 0)
+                    while (positionY < 0)
                     {
-                        robot.positionY += input.sizeY;
+                        positionY += input.sizeY;
                     }
-                    space[robot.positionY, robot.positionX] = '#';
+                    space[positionY, positionX] = '#';
                 }
                 for (int x = 0; x < space.GetLength(0); x++)
                 {
                     for (int y = 0; y < space.GetLength(1); y++)
                     {
-                        if (space[x, y] == '#')
+                        if (Helper.MatrixHelper.IsInDirection(space, x, y, 1, 0, toSearch))
                         {
-                            if (Helper.MatrixHelper.IsInDirection(space, x, y, 1, 0, toSearch))
-                            {
-                                //Console.WriteLine($"Step: {i}");
-                                //for (int a = 0; a < space.GetLength(0); a++)
-                                //{
-                                //    for (int b = 0; b < space.GetLength(1); b++)
-                                //    {
-                                //        Console.Write(space[a, b] ?? '.');
-                                //    }
-                                //    Console.WriteLine();
-                                //}
-                                //Console.WriteLine();
-                                stepNumber = i;
-                                return true;
-                            }
+                            //Console.WriteLine($"Step: {i}");
+                            //for (int a = 0; a < space.GetLength(0); a++)
+                            //{
+                            //    for (int b = 0; b < space.GetLength(1); b++)
+                            //    {
+                            //        Console.Write(space[a, b] ?? '.');
+                            //    }
+                            //    Console.WriteLine();
+                            //}
+                            //Console.WriteLine();
+                            stepNumber = i;
+                            return true;
                         }
                     }
                 }
