@@ -2,68 +2,56 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day14_Solution : IDaySolution<IEnumerable<Robot>>
+    internal partial class Day14_Solution : IDaySolution<Day14_Input>
     {
-        public IEnumerable<Robot> LoadData(string inputPath)
+        public Day14_Input LoadData(string inputPath)
         {
+            // Input in File needs to be prepended with a line stating the size of the field.
+            // f.e. 
+            // 11,7
             string[] lines = File.ReadAllLines(inputPath + "/Day14.txt");
 
-            //List<Robot> robots = [];
-
-            foreach (string line in lines)
+            string firstLine = lines.First();
+            var lineMatch = SizeParser().Match(firstLine);
+            return new()
             {
-                Robot robot = new();
-                var match = RobotParser().Match(line);
-                robot.positionX = int.Parse(match.Groups["posX"].Value);
-                robot.positionY = int.Parse(match.Groups["posY"].Value);
-                robot.velocityX = int.Parse(match.Groups["velX"].Value);
-                robot.velocityY = int.Parse(match.Groups["velY"].Value);
-                if (inputPath == "Input_Test")
-                {
-                    robot.sizeX = 11;
-                    robot.sizeY = 7;
-                }
-                else if (inputPath == "Input")
-                {
-                    robot.sizeX = 101;
-                    robot.sizeY = 103;
-                }
-
-                //robots.Add(robot);
-                yield return robot;
-            }
-            //return robots;
+                sizeX = int.Parse(lineMatch.Groups["sizeX"].Value),
+                sizeY = int.Parse(lineMatch.Groups["sizeY"].Value),
+                robots = ParseRobots(lines.Skip(1))
+            };
         }
 
-        public long Part1(IEnumerable<Robot> robots)
+        public long Part1(Day14_Input input)
         {
             long quadrant1 = 0;
             long quadrant2 = 0;
             long quadrant3 = 0;
             long quadrant4 = 0;
+            int cutoffX = (input.sizeX - 1) / 2;
+            int cutoffY = (input.sizeY - 1) / 2;
+
+            IEnumerable<Robot> robots = input.robots;
             foreach (Robot robot in robots)
             {
                 robot.positionX += robot.velocityX * 100;
                 robot.positionY += robot.velocityY * 100;
-                while (robot.positionX >= robot.sizeX)
+                while (robot.positionX >= input.sizeX)
                 {
-                    robot.positionX -= robot.sizeX;
+                    robot.positionX -= input.sizeX;
                 }
                 while (robot.positionX < 0)
                 {
-                    robot.positionX += robot.sizeX;
+                    robot.positionX += input.sizeX;
                 }
-                while (robot.positionY >= robot.sizeY)
+                while (robot.positionY >= input.sizeY)
                 {
-                    robot.positionY -= robot.sizeY;
+                    robot.positionY -= input.sizeY;
                 }
                 while (robot.positionY < 0)
                 {
-                    robot.positionY += robot.sizeY;
+                    robot.positionY += input.sizeY;
                 }
 
-                int cutoffX = (robot.sizeX - 1) / 2;
-                int cutoffY = (robot.sizeY - 1) / 2;
                 if (robot.positionX < cutoffX)
                 {
                     if (robot.positionY < cutoffY)
@@ -90,11 +78,13 @@ namespace AdventOfCode
             return quadrant1 * quadrant2 * quadrant3 * quadrant4;
         }
 
-        public long Part2(IEnumerable<Robot> robots)
+        public long Part2(Day14_Input input)
         {
-            char[,] space = new char[robots.First().sizeY, robots.First().sizeX];
+            char[,] space = new char[input.sizeY, input.sizeX];
 
-            for (int i = 1; i <= 101 * 103; i++)
+            IEnumerable<Robot> robots = input.robots;
+
+            for (int i = 1; i <= input.sizeX * input.sizeY; i++)
             {
                 for (int x = 0; x < space.GetLength(0); x++)
                 {
@@ -107,21 +97,21 @@ namespace AdventOfCode
                 {
                     robot.positionX += robot.velocityX * i;
                     robot.positionY += robot.velocityY * i;
-                    while (robot.positionX >= robot.sizeX)
+                    while (robot.positionX >= input.sizeX)
                     {
-                        robot.positionX -= robot.sizeX;
+                        robot.positionX -= input.sizeX;
                     }
                     while (robot.positionX < 0)
                     {
-                        robot.positionX += robot.sizeX;
+                        robot.positionX += input.sizeX;
                     }
-                    while (robot.positionY >= robot.sizeY)
+                    while (robot.positionY >= input.sizeY)
                     {
-                        robot.positionY -= robot.sizeY;
+                        robot.positionY -= input.sizeY;
                     }
                     while (robot.positionY < 0)
                     {
-                        robot.positionY += robot.sizeY;
+                        robot.positionY += input.sizeY;
                     }
                     space[robot.positionY, robot.positionX] = '#';
                 }
@@ -142,16 +132,16 @@ namespace AdventOfCode
                             }
                             if (found)
                             {
-                                //    Console.WriteLine($"Step: {i}");
-                                //    for (int x = 0; x < space.GetLength(0); x++)
-                                //    {
-                                //        for (int y = 0; y < space.GetLength(1); y++)
-                                //        {
-                                //            Console.Write(space[x, y]);
-                                //        }
-                                //        Console.WriteLine();
-                                //    }
-                                //    Console.WriteLine();
+                                Console.WriteLine($"Step: {i}");
+                                for (int a = 0; a < space.GetLength(0); a++)
+                                {
+                                    for (int b = 0; b < space.GetLength(1); b++)
+                                    {
+                                        Console.Write(space[a, b]);
+                                    }
+                                    Console.WriteLine();
+                                }
+                                Console.WriteLine();
                                 return i;
                             }
                         }
@@ -167,8 +157,26 @@ namespace AdventOfCode
             return x >= 0 && x < matrix.GetLength(0) && y >= 0 && y < matrix.GetLength(1);
         }
 
+        private static IEnumerable<Robot> ParseRobots(IEnumerable<string> lines)
+        {
+            foreach (string line in lines)
+            {
+                Robot robot = new();
+                var match = RobotParser().Match(line);
+                robot.positionX = int.Parse(match.Groups["posX"].Value);
+                robot.positionY = int.Parse(match.Groups["posY"].Value);
+                robot.velocityX = int.Parse(match.Groups["velX"].Value);
+                robot.velocityY = int.Parse(match.Groups["velY"].Value);
+
+                yield return robot;
+            }
+        }
+
         [GeneratedRegex("p=(?'posX'-?\\d+),(?'posY'-?\\d+) v=(?'velX'-?\\d+),(?'velY'-?\\d+)")]
         private static partial Regex RobotParser();
+
+        [GeneratedRegex("(?'sizeX'\\d+),(?'sizeY'\\d+)")]
+        private static partial Regex SizeParser();
     }
 
     public class Robot
@@ -177,7 +185,12 @@ namespace AdventOfCode
         public int positionY;
         public int velocityX;
         public int velocityY;
-        public int sizeX;
-        public int sizeY;
+    }
+
+    public class Day14_Input
+    {
+        public required int sizeX;
+        public required int sizeY;
+        public required IEnumerable<Robot> robots;
     }
 }
