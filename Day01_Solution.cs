@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day01_Solution : IDaySolution<string[]>
+    internal class Day01_Solution : Helper.IDaySolution<string[]>
     {
         public string[] LoadData(string inputFolder)
         {

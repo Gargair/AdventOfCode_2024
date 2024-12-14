@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day10_Solution : IDaySolution<byte[][]>
+    internal class Day10_Solution : Helper.IDaySolution<byte[][]>
     {
         public byte[][] LoadData(string inputPath)
         {

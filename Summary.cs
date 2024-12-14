@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using AdventOfCode.Helper;
+using System.Diagnostics;
 
 namespace AdventOfCode
 {
@@ -22,6 +23,12 @@ namespace AdventOfCode
             StartSolution(new Day12_Solution());
             StartSolution(new Day13_Solution());
             StartSolution(new Day14_Solution());
+            //StartSolution(new Day15_Solution());
+
+            StartSolution(new Day15_Solution(), "Input_Test", Parts.Part1);
+            //StartSolution(new Day15_Solution(), "Input", Parts.Part1);
+            //StartSolution(new Day15_Solution(), "Input_Test", Parts.Part2);
+            //StartSolution(new Day15_Solution(), "Input", Parts.Part2);
 
             timer.Stop();
             Console.WriteLine($"[{DateTime.Now}]: Total: {timer.Elapsed}");

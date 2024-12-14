@@ -2,7 +2,7 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day14_Solution : IDaySolution<Day14_Input>
+    internal partial class Day14_Solution : Helper.IDaySolution<Day14_Input>
     {
         public Day14_Input LoadData(string inputPath)
         {
@@ -124,7 +124,7 @@ namespace AdventOfCode
                             bool found = true;
                             for (int t = 1; t <= 15; t++)
                             {
-                                if (!IsInMatrix(space, x + t, y) || space[x + t, y] != '#')
+                                if (!Helper.MatrixHelper.IsInMatrix(space, x + t, y) || space[x + t, y] != '#')
                                 {
                                     found = false;
                                     break;
@@ -150,11 +150,6 @@ namespace AdventOfCode
 
             }
             return 0;
-        }
-
-        private static bool IsInMatrix<T>(T[,] matrix, int x, int y)
-        {
-            return x >= 0 && x < matrix.GetLength(0) && y >= 0 && y < matrix.GetLength(1);
         }
 
         private static IEnumerable<Robot> ParseRobots(IEnumerable<string> lines)

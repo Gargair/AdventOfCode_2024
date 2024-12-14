@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day06_Solution : IDaySolution<char[][]>
+    internal class Day06_Solution : Helper.IDaySolution<char[][]>
     {
         public char[][] LoadData(string inputPath)
         {
@@ -9,76 +9,49 @@
 
         public long Part1(char[][] block)
         {
-            int[] start = GrabStart(block);
-            long blockWidth = block[0].Length;
-            DeterminePathAndLoop(block, start, false, (current, deltaX, deltaY) => current[0] * blockWidth + current[1], out List<long> positionsVisited);
+            int[] start = Helper.MatrixHelper.FindFirstElement(block, '^');
+            DeterminePath(block, start, out List<long> positionsVisited);
             return positionsVisited.Count;
         }
 
         public long Part2(char[][] block)
         {
-            int[] start = GrabStart(block);
+            int[] start = Helper.MatrixHelper.FindFirstElement(block, '^');
             long blockWidth = block[0].Length;
             // Take actual path
-            DeterminePathAndLoop(block, start, false, (current, deltaX, deltaY) => current[0] * blockWidth + current[1], out List<long> positionsVisited);
-            long count = 0;
-            foreach (long position in positionsVisited)
+            DeterminePath(block, start, out List<long> positionsVisited);
+
+            return positionsVisited.AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).Where(position =>
             {
-                // Check for each position on path if blocker there would create a loop.
-                // All positions not on initial path have no impact on path taken.
                 int j = (int)(position % blockWidth);
                 int i = (int)(position / blockWidth);
-                if (block[i][j] == '.')
-                {
-                    block[i][j] = '#';
-                    if (DeterminePathAndLoop(block, start, true, (current, deltaX, deltaY) => (current[0] * blockWidth + current[1]) * 100 + (deltaX + 1) * 10 + (deltaY + 1)))
-                    {
-                        count++;
-                    }
-                    block[i][j] = '.';
-                }
-            }
-            // 3.22s => 2.4s
-            return count;
+
+                return DetermineLoop(block, start, i, j);
+            }).Count();
         }
 
-        private static int[] GrabStart(char[][] block)
-        {
-            for (int i = 0; i < block.Length; i++)
-            {
-                for (int j = 0; j < block[i].Length; j++)
-                {
-                    if (block[i][j] == '^')
-                    {
-                        return [i, j];
-                    }
-                }
-            }
-            return [0, 0];
-        }
-
-        private static bool DeterminePathAndLoop(char[][] block, int[] start, bool stopOnVisitedPosition, Func<int[], int, int, long> posNumCalc)
+        private static bool DetermineLoop(char[][] block, int[] start, int blockedX, int blockedY)
         {
             bool[] positionsVisited = new bool[block.Length * block[0].Length * 10 * 10];
             int[] current = start;
             long blockWidth = block[0].Length;
             int deltaX = -1;
             int deltaY = 0;
-            while (current[0] >= 0 && current[1] >= 0 && current[0] < block.Length && current[1] < blockWidth)
+            while (Helper.MatrixHelper.IsInMatrix(block, current[0], current[1]))
             {
-                long posNum = posNumCalc(current, deltaX, deltaY);
+                long posNum = (current[0] * blockWidth + current[1]) * 100 + (deltaX + 1) * 10 + (deltaY + 1);
                 if (!positionsVisited[posNum])
                 {
                     positionsVisited[posNum] = true;
                 }
-                else if (stopOnVisitedPosition)
+                else
                 {
                     return true;
                 }
                 int[] next = [current[0] + deltaX, current[1] + deltaY];
-                if (next[0] >= 0 && next[1] >= 0 && next[0] < block.Length && next[1] < blockWidth)
+                if (Helper.MatrixHelper.IsInMatrix(block, next[0], next[1]))
                 {
-                    if (block[next[0]][next[1]] == '#')
+                    if (block[next[0]][next[1]] == '#' || blockedX == next[0] && blockedY == next[1])
                     {
                         if (deltaX == -1 && deltaY == 0)
                         {
@@ -108,26 +81,22 @@
             return false;
         }
 
-        private static bool DeterminePathAndLoop(char[][] block, int[] start, bool stopOnVisitedPosition, Func<int[], int, int, long> posNumCalc, out List<long> positionsVisited)
+        private static void DeterminePath(char[][] block, int[] start, out List<long> positionsVisited)
         {
             positionsVisited = [];
             int[] current = start;
             long blockWidth = block[0].Length;
             int deltaX = -1;
             int deltaY = 0;
-            while (current[0] >= 0 && current[1] >= 0 && current[0] < block.Length && current[1] < blockWidth)
+            while (Helper.MatrixHelper.IsInMatrix(block, current[0], current[1]))
             {
-                long posNum = posNumCalc(current, deltaX, deltaY);
+                long posNum = current[0] * blockWidth + current[1];
                 if (!positionsVisited.Contains(posNum))
                 {
                     positionsVisited.Add(posNum);
                 }
-                else if (stopOnVisitedPosition)
-                {
-                    return true;
-                }
                 int[] next = [current[0] + deltaX, current[1] + deltaY];
-                if (next[0] >= 0 && next[1] >= 0 && next[0] < block.Length && next[1] < blockWidth)
+                if (Helper.MatrixHelper.IsInMatrix(block, next[0], next[1]))
                 {
                     if (block[next[0]][next[1]] == '#')
                     {
@@ -156,7 +125,6 @@
                 }
                 current = next;
             }
-            return false;
         }
     }
 }

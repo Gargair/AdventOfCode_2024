@@ -2,7 +2,7 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day13_Solution : IDaySolution<IEnumerable<ClawMachine>>
+    internal partial class Day13_Solution : Helper.IDaySolution<IEnumerable<ClawMachine>>
     {
         public IEnumerable<ClawMachine> LoadData(string inputPath)
         {
