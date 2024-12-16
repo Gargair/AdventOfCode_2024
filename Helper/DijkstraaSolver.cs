@@ -1,10 +1,12 @@
-﻿namespace AdventOfCode.Helper
+﻿using System.Security.Cryptography;
+
+namespace AdventOfCode.Helper
 {
     public static class DijkstraaSolver
     {
-        public static void CalcDijkstraa(GraphNode start)
+        public static void CalcDijkstraa<T>(T start) where T : GraphNode
         {
-            PriorityQueue<GraphNode, int> queue = new();
+            PriorityQueue<GraphNode, long> queue = new();
             queue.Enqueue(start, 0);
             start.distance = 0;
             while (queue.Count > 0)
@@ -19,15 +21,21 @@
                 {
                     throw new Exception($"Found node to be processed without distance set.");
                 }
-                foreach (var next in node.next)
+                foreach (var edge in node.next)
                 {
+                    GraphNode next = edge.to;
                     if (!next.visited)
                     {
-                        var newDistance = node.distance.Value + next.cost;
+                        var newDistance = node.distance.Value + next.cost + edge.cost;
                         if (!next.distance.HasValue || next.distance.Value > newDistance)
                         {
                             next.distance = newDistance;
-                            next.predecessor = node;
+                            next.predecessors = [node];
+                            queue.Enqueue(next, newDistance);
+                        }
+                        else if (!next.distance.HasValue || next.distance.Value == newDistance)
+                        {
+                            next.predecessors.Add(node);
                             queue.Enqueue(next, newDistance);
                         }
                     }
@@ -37,12 +45,17 @@
 
         public class GraphNode
         {
-            public int cost;
-            public int? distance;
+            public long cost;
+            public long? distance;
             public bool visited = false;
-            public int directionLength;
-            public List<GraphNode> next = [];
-            public GraphNode? predecessor = null;
+            public List<GraphEdge> next = [];
+            public List<GraphNode> predecessors = [];
+        }
+
+        public class GraphEdge
+        {
+            public long cost;
+            public required GraphNode to;
         }
     }
 }
