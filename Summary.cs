@@ -25,6 +25,7 @@ namespace AdventOfCode
             StartSolution(new Day14_Solution());
             StartSolution(new Day15_Solution());
             StartSolution(new Day16_Solution());
+            StartSolution(new Day17_Solution());
 
             timer.Stop();
             Console.WriteLine($"[{DateTime.Now}]: Total: {timer.Elapsed}");
