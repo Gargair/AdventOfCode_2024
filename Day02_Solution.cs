@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day02_Solution : Helper.IDaySolution<IEnumerable<int[]>>
+    internal class Day02_Solution : Helper.IDaySolution<IEnumerable<int[]>, long>
     {
         public IEnumerable<int[]> LoadData(string inputPath)
         {

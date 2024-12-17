@@ -28,10 +28,10 @@
         }
     }
 
-    public interface IDaySolution<T>
+    public interface IDaySolution<T, O>
     {
         T LoadData(string inputFolder);
-        long Part1(T input);
-        long Part2(T input);
+        O Part1(T input);
+        O Part2(T input);
     }
 }

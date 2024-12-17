@@ -30,7 +30,7 @@ namespace AdventOfCode
             Console.WriteLine($"[{DateTime.Now}]: Total: {timer.Elapsed}");
         }
 
-        private static void StartSolution<T>(IDaySolution<T> solution, string inputPath = "Input", Parts parts = Parts.Part1 | Parts.Part2)
+        private static void StartSolution<T, O>(IDaySolution<T, O> solution, string inputPath = "Input", Parts parts = Parts.Part1 | Parts.Part2)
         {
             string solutionName = solution.GetType().Name;
             Console.WriteLine($"[{DateTime.Now}]: {solutionName}");
@@ -40,7 +40,7 @@ namespace AdventOfCode
             {
                 timer.Restart();
                 T input = solution.LoadData(inputPath);
-                long result = solution.Part1(input);
+                O result = solution.Part1(input);
                 timer.Stop();
                 Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 01: {timer.Elapsed}\t{result}");
             }
@@ -49,7 +49,7 @@ namespace AdventOfCode
             {
                 timer.Restart();
                 T input = solution.LoadData(inputPath);
-                long result = solution.Part2(input);
+                O result = solution.Part2(input);
                 timer.Stop();
                 Console.WriteLine($"[{DateTime.Now}]: {solutionName} - Part 02: {timer.Elapsed}\t{result}");
             }

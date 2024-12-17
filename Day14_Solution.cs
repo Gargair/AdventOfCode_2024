@@ -2,7 +2,7 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day14_Solution : Helper.IDaySolution<Day14_Input>
+    internal partial class Day14_Solution : Helper.IDaySolution<Day14_Input, long>
     {
         public Day14_Input LoadData(string inputPath)
         {

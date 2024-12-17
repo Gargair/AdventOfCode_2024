@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day12_Solution : Helper.IDaySolution<char[][]>
+    internal class Day12_Solution : Helper.IDaySolution<char[][], long>
     {
         public char[][] LoadData(string inputPath)
         {
