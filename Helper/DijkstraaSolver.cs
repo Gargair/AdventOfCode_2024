@@ -1,41 +1,39 @@
-﻿using System.Security.Cryptography;
-
-namespace AdventOfCode.Helper
+﻿namespace AdventOfCode.Helper
 {
     public static class DijkstraaSolver
     {
-        public static void CalcDijkstraa<T>(T start) where T : GraphNode
+        public static void CalcDijkstraa(IGraphNode start)
         {
-            PriorityQueue<GraphNode, long> queue = new();
+            PriorityQueue<IGraphNode, long> queue = new();
             queue.Enqueue(start, 0);
-            start.distance = 0;
+            start.Distance = 0;
             while (queue.Count > 0)
             {
-                GraphNode node = queue.Dequeue();
-                if (node.visited)
+                IGraphNode node = queue.Dequeue();
+                if (node.Visited)
                 {
                     continue;
                 }
-                node.visited = true;
-                if (!node.distance.HasValue)
+                node.Visited = true;
+                if (!node.Distance.HasValue)
                 {
                     throw new Exception($"Found node to be processed without distance set.");
                 }
-                foreach (var edge in node.next)
+                foreach (IGraphEdge edge in node.Next)
                 {
-                    GraphNode next = edge.to;
-                    if (!next.visited)
+                    IGraphNode next = edge.To;
+                    if (!next.Visited)
                     {
-                        var newDistance = node.distance.Value + next.cost + edge.cost;
-                        if (!next.distance.HasValue || next.distance.Value > newDistance)
+                        long newDistance = node.Distance.Value + next.Cost + edge.Cost;
+                        if (!next.Distance.HasValue || next.Distance.Value > newDistance)
                         {
-                            next.distance = newDistance;
-                            next.predecessors = [node];
+                            next.Distance = newDistance;
+                            next.Predecessors.Add(edge);
                             queue.Enqueue(next, newDistance);
                         }
-                        else if (!next.distance.HasValue || next.distance.Value == newDistance)
+                        else if (!next.Distance.HasValue || next.Distance.Value == newDistance)
                         {
-                            next.predecessors.Add(node);
+                            next.Predecessors.Add(edge);
                             queue.Enqueue(next, newDistance);
                         }
                     }
@@ -43,19 +41,66 @@ namespace AdventOfCode.Helper
             }
         }
 
-        public class GraphNode
+        public interface IGraphNode
+        {
+            public long Cost { get; }
+            public long? Distance { get; set; }
+            public bool Visited { get; set; }
+            public List<IGraphEdge> Next { get; }
+            public List<IGraphEdge> Predecessors { get; }
+
+            public void Reset();
+        }
+
+        public interface IGraphEdge
+        {
+            public long Cost { get; }
+            public IGraphNode To { get; }
+        }
+
+        public class GraphNode : IGraphNode
         {
             public long cost;
             public long? distance;
             public bool visited = false;
-            public List<GraphEdge> next = [];
-            public List<GraphNode> predecessors = [];
+            public List<IGraphEdge> next = [];
+            public List<IGraphEdge> predecessors = [];
+
+            public long Cost { get { return this.cost; } set { this.cost = value; } }
+            public long? Distance { get { return this.distance; } set { this.distance = value; } }
+            public bool Visited { get { return this.visited; } set { this.visited = value; } }
+            public List<IGraphEdge> Next { get { return this.next; } }
+            public List<IGraphEdge> Predecessors { get { return this.predecessors; } }
+
+            public void Reset()
+            {
+                if (this.visited)
+                {
+                    this.visited = false;
+                    this.distance = null;
+                    this.predecessors = [];
+                    foreach (var edge in this.next)
+                    {
+                        edge.To.Reset();
+                    }
+                }
+            }
         }
 
-        public class GraphEdge
+        public class GraphEdge : IGraphEdge
         {
             public long cost;
-            public required GraphNode to;
+            public required IGraphNode to;
+
+            public long Cost
+            {
+                get { return this.cost; }
+            }
+
+            public IGraphNode To
+            {
+                get { return this.to; }
+            }
         }
     }
 }
