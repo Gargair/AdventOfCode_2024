@@ -12,7 +12,17 @@
             return x >= 0 && x < matrix.Length && y >= 0 && y < matrix[0].Length;
         }
 
-        public static int[] FindFirstElement<T>(T[][] matrix, T element)
+        public static bool IsInMatrix<T>(T[][] matrix, Tuple<int, int> pos)
+        {
+            return IsInMatrix(matrix, pos.Item1, pos.Item2);
+        }
+
+        public static bool IsInMatrix<T>(T[,] matrix, Tuple<int, int> pos)
+        {
+            return IsInMatrix(matrix, pos.Item1, pos.Item2);
+        }
+
+        public static Tuple<int, int>? FindFirstElement<T>(T[][] matrix, T element)
         {
             for (int i = 0; i < matrix.Length; i++)
             {
@@ -20,14 +30,14 @@
                 {
                     if (EqualityComparer<T>.Default.Equals(matrix[i][j], element))
                     {
-                        return [i, j];
+                        return Tuple.Create(i, j);
                     }
                 }
             }
-            return [-1, -1];
+            return null;
         }
 
-        public static int[] FindFirstElement<T>(T[,] matrix, T element)
+        public static Tuple<int,int>? FindFirstElement<T>(T[,] matrix, T element)
         {
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
@@ -35,11 +45,11 @@
                 {
                     if (EqualityComparer<T>.Default.Equals(matrix[i, j], element))
                     {
-                        return [i, j];
+                        return Tuple.Create(i, j);
                     }
                 }
             }
-            return [-1, -1];
+            return null;
         }
 
         public static bool IsInDirection<T>(T[][] matrix, int startX, int startY, int deltaX, int deltaY, T[] toSearch)

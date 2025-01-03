@@ -9,24 +9,32 @@
 
         public long Part1(char[][] block)
         {
-            int[] start = Helper.MatrixHelper.FindFirstElement(block, '^');
-            DeterminePath(block, start, out List<long> positionsVisited);
+            Tuple<int, int>? start = Helper.MatrixHelper.FindFirstElement(block, '^');
+            if (start == null)
+            {
+                throw new Exception("Start not found");
+            }
+            DeterminePath(block, [start.Item1, start.Item2], out List<long> positionsVisited);
             return positionsVisited.Count;
         }
 
         public long Part2(char[][] block)
         {
-            int[] start = Helper.MatrixHelper.FindFirstElement(block, '^');
+            Tuple<int, int>? start = Helper.MatrixHelper.FindFirstElement(block, '^');
+            if (start == null)
+            {
+                throw new Exception("Start not found");
+            }
             long blockWidth = block[0].Length;
             // Take actual path
-            DeterminePath(block, start, out List<long> positionsVisited);
+            DeterminePath(block, [start.Item1, start.Item2], out List<long> positionsVisited);
 
             return positionsVisited.AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).Where(position =>
             {
                 int j = (int)(position % blockWidth);
                 int i = (int)(position / blockWidth);
 
-                return DetermineLoop(block, start, i, j);
+                return DetermineLoop(block, [start.Item1, start.Item2], i, j);
             }).Count();
         }
 

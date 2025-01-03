@@ -46,8 +46,17 @@ namespace AdventOfCode
 
         private static void BuildGraph(char[][] maze, out MazeNode start, out MazeNode[] ends)
         {
-            int[] startPosition = Helper.MatrixHelper.FindFirstElement(maze, 'S');
-            int[] endPosition = Helper.MatrixHelper.FindFirstElement(maze, 'E');
+            Tuple<int, int>? startPosition = Helper.MatrixHelper.FindFirstElement(maze, 'S');
+            Tuple<int, int>? endPosition = Helper.MatrixHelper.FindFirstElement(maze, 'E');
+
+            if (startPosition == null)
+            {
+                throw new Exception("Did not find start");
+            }
+            if (endPosition == null)
+            {
+                throw new Exception("Did not find end");
+            }
 
             MazeNode[][][] nodes = maze.Select((row, rowIndex) => row.Select((point, columnIndex) =>
             {
@@ -136,8 +145,8 @@ namespace AdventOfCode
                 }
             }
 
-            start = nodes[startPosition[0]][startPosition[1]][0];
-            ends = nodes[endPosition[0]][endPosition[1]];
+            start = nodes[startPosition.Item1][startPosition.Item2][0];
+            ends = nodes[endPosition.Item1][endPosition.Item2];
         }
 
         private static long? DeterminePoints(char[][] maze, int[] start, int[] end, char direction, Dictionary<Tuple<int, int, char>, long?> cache, long depth)

@@ -16,10 +16,14 @@ namespace AdventOfCode
 
         public long Part1(Day15_Input input)
         {
-            int[] current = Helper.MatrixHelper.FindFirstElement(input.warehouse, '@');
+            Tuple<int, int>? current = Helper.MatrixHelper.FindFirstElement(input.warehouse, '@');
+            if (current == null)
+            {
+                throw new Exception("Did not find robot");
+            }
             foreach (char direction in input.robotInput)
             {
-                current = MoveInDirection(input.warehouse, current[0], current[1], direction);
+                current = MoveInDirection(input.warehouse, current.Item1, current.Item2, direction);
             }
             long sum = 0;
             for (int i = 0; i < input.warehouse.Length; i++)
@@ -64,10 +68,14 @@ namespace AdventOfCode
                     }
                 }
             }
-            int[] current = Helper.MatrixHelper.FindFirstElement(warehouse, '@');
+            Tuple<int, int>? current = Helper.MatrixHelper.FindFirstElement(input.warehouse, '@');
+            if (current == null)
+            {
+                throw new Exception("Did not find robot");
+            }
             foreach (char direction in input.robotInput)
             {
-                current = MoveInDirectionPart2(warehouse, current[0], current[1], direction);
+                current = MoveInDirectionPart2(warehouse, current.Item1, current.Item2, direction);
             }
             long sum = 0;
             for (int i = 0; i < warehouse.GetLength(0); i++)
@@ -83,7 +91,7 @@ namespace AdventOfCode
             return sum;
         }
 
-        private static int[] MoveInDirection(char[][] warehouse, int currentX, int currentY, char direction)
+        private static Tuple<int, int> MoveInDirection(char[][] warehouse, int currentX, int currentY, char direction)
         {
             int[] delta = GetDirectionDelta(direction);
             int nextX = currentX + delta[0];
@@ -96,7 +104,7 @@ namespace AdventOfCode
                     // Free: Move robot
                     warehouse[nextX][nextY] = '@';
                     warehouse[currentX][currentY] = '.';
-                    return [nextX, nextY];
+                    return Tuple.Create(nextX, nextY);
                 }
                 else if (warehouse[nextX][nextY] == '#')
                 {
@@ -118,7 +126,7 @@ namespace AdventOfCode
                         warehouse[boxX][boxY] = 'O';
                         warehouse[nextX][nextY] = '@';
                         warehouse[currentX][currentY] = '.';
-                        return [nextX, nextY];
+                        return Tuple.Create(nextX, nextY);
                     }
                     else if (warehouse[boxX][boxY] == '#')
                     {
@@ -126,10 +134,10 @@ namespace AdventOfCode
                     }
                 }
             }
-            return [currentX, currentY];
+            return Tuple.Create(currentX, currentY);
         }
 
-        private static int[] MoveInDirectionPart2(char[,] warehouse, int currentX, int currentY, char direction)
+        private static Tuple<int, int> MoveInDirectionPart2(char[,] warehouse, int currentX, int currentY, char direction)
         {
             int[] delta = GetDirectionDelta(direction);
             int nextX = currentX + delta[0];
@@ -142,7 +150,7 @@ namespace AdventOfCode
                     // Free: Move robot
                     warehouse[nextX, nextY] = '@';
                     warehouse[currentX, currentY] = '.';
-                    return [nextX, nextY];
+                    return Tuple.Create(nextX, nextY);
                 }
                 else if (warehouse[nextX, nextY] == '#')
                 {
@@ -210,11 +218,11 @@ namespace AdventOfCode
                         }
                         warehouse[nextX, nextY] = '@';
                         warehouse[currentX, currentY] = '.';
-                        return [nextX, nextY];
+                        return Tuple.Create(nextX, nextY);
                     }
                 }
             }
-            return [currentX, currentY];
+            return Tuple.Create(currentX, currentY);
         }
 
         private static int[] GetDirectionDelta(char direction)
