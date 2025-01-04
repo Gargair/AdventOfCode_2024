@@ -41,6 +41,23 @@
             }
         }
 
+        public static IEnumerable<T[]> GetShortestPaths<T>(IGraphNode end, Func<IGraphNode, T> nodeVisitor, Func<IGraphEdge, T> edgeVisitor)
+        {
+            T nodePart = nodeVisitor(end);
+            if (!end.Distance.HasValue || end.Distance.Value == 0)
+            {
+                yield return [nodePart];
+            }
+            foreach (IGraphEdge edge in end.Predecessors)
+            {
+                T edgePart = edgeVisitor(edge);
+                foreach (T[] part2 in GetShortestPaths(edge.From, nodeVisitor, edgeVisitor))
+                {
+                    yield return [.. part2, edgePart, nodePart];
+                }
+            }
+        }
+
         public interface IGraphNode
         {
             public long Cost { get; }
@@ -55,6 +72,7 @@
         public interface IGraphEdge
         {
             public long Cost { get; }
+            public IGraphNode From { get; }
             public IGraphNode To { get; }
         }
 
@@ -90,12 +108,15 @@
         public class GraphEdge : IGraphEdge
         {
             public long cost;
+            public required IGraphNode from;
             public required IGraphNode to;
 
             public long Cost
             {
                 get { return this.cost; }
             }
+
+            public IGraphNode From { get { return this.from; } }
 
             public IGraphNode To
             {

@@ -48,19 +48,19 @@ namespace AdventOfCode
                 {
                     if (i > 0 && maze[i - 1][j] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i - 1][j] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i - 1][j] });
                     }
                     if (i < maze.Length - 1 && maze[i + 1][j] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i + 1][j] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i + 1][j] });
                     }
                     if (j > 0 && maze[i][j - 1] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i][j - 1] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i][j - 1] });
                     }
                     if (j < maze[i].Length - 1 && maze[i][j + 1] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i][j + 1] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i][j + 1] });
                     }
                 }
             }
@@ -137,19 +137,19 @@ namespace AdventOfCode
                 {
                     if (i > 0 && maze[i - 1][j] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i - 1][j] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i - 1][j] });
                     }
                     if (i < maze.Length - 1 && maze[i + 1][j] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i + 1][j] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i + 1][j] });
                     }
                     if (j > 0 && maze[i][j - 1] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i][j - 1] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i][j - 1] });
                     }
                     if (j < maze[i].Length - 1 && maze[i][j + 1] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i][j + 1] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i][j + 1] });
                     }
                 }
             }
@@ -369,19 +369,19 @@ namespace AdventOfCode
                 {
                     if (i > 0 && maze[i - 1][j] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i - 1][j] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i - 1][j] });
                     }
                     if (i < maze.Length - 1 && maze[i + 1][j] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i + 1][j] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i + 1][j] });
                     }
                     if (j > 0 && maze[i][j - 1] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i][j - 1] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i][j - 1] });
                     }
                     if (j < maze[i].Length - 1 && maze[i][j + 1] != '#')
                     {
-                        nodes[i][j].next.Add(new GraphEdge() { to = nodes[i][j + 1] });
+                        nodes[i][j].next.Add(new GraphEdge() { from = nodes[i][j], to = nodes[i][j + 1] });
                     }
                 }
             }

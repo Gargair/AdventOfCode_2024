@@ -99,7 +99,7 @@ namespace AdventOfCode
                             if (maze[i + deltaRight[0]][j + deltaRight[1]] != '#')
                             {
                                 MazeNode[] targetNodes = nodes[i + deltaRight[0]][j + deltaRight[1]];
-                                Helper.DijkstraaSolver.GraphEdge edge = new Helper.DijkstraaSolver.GraphEdge() { to = targetNodes[0], cost = 1 };
+                                Helper.DijkstraaSolver.GraphEdge edge = new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[0], to = targetNodes[0], cost = 1 };
                                 currentNodes[0].next.Add(edge);
                             }
                         }
@@ -109,7 +109,7 @@ namespace AdventOfCode
                             if (maze[i + deltaBottom[0]][j + deltaBottom[1]] != '#')
                             {
                                 MazeNode[] targetNodes = nodes[i + deltaBottom[0]][j + deltaBottom[1]];
-                                Helper.DijkstraaSolver.GraphEdge edge = new Helper.DijkstraaSolver.GraphEdge() { to = targetNodes[1], cost = 1 };
+                                Helper.DijkstraaSolver.GraphEdge edge = new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[1], to = targetNodes[1], cost = 1 };
                                 currentNodes[1].next.Add(edge);
                             }
                         }
@@ -119,7 +119,7 @@ namespace AdventOfCode
                             if (maze[i + deltaLeft[0]][j + deltaLeft[1]] != '#')
                             {
                                 MazeNode[] targetNodes = nodes[i + deltaLeft[0]][j + deltaLeft[1]];
-                                Helper.DijkstraaSolver.GraphEdge edge = new Helper.DijkstraaSolver.GraphEdge() { to = targetNodes[2], cost = 1 };
+                                Helper.DijkstraaSolver.GraphEdge edge = new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[2], to = targetNodes[2], cost = 1 };
                                 currentNodes[2].next.Add(edge);
                             }
                         }
@@ -129,18 +129,18 @@ namespace AdventOfCode
                             if (maze[i + deltaTop[0]][j + deltaTop[1]] != '#')
                             {
                                 MazeNode[] targetNodes = nodes[i + deltaTop[0]][j + deltaTop[1]];
-                                Helper.DijkstraaSolver.GraphEdge edge = new Helper.DijkstraaSolver.GraphEdge() { to = targetNodes[3], cost = 1 };
+                                Helper.DijkstraaSolver.GraphEdge edge = new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[3], to = targetNodes[3], cost = 1 };
                                 currentNodes[3].next.Add(edge);
                             }
                         }
-                        currentNodes[0].next.Add(new Helper.DijkstraaSolver.GraphEdge() { to = currentNodes[1], cost = 1000 });
-                        currentNodes[0].next.Add(new Helper.DijkstraaSolver.GraphEdge() { to = currentNodes[3], cost = 1000 });
-                        currentNodes[1].next.Add(new Helper.DijkstraaSolver.GraphEdge() { to = currentNodes[0], cost = 1000 });
-                        currentNodes[1].next.Add(new Helper.DijkstraaSolver.GraphEdge() { to = currentNodes[2], cost = 1000 });
-                        currentNodes[2].next.Add(new Helper.DijkstraaSolver.GraphEdge() { to = currentNodes[1], cost = 1000 });
-                        currentNodes[2].next.Add(new Helper.DijkstraaSolver.GraphEdge() { to = currentNodes[3], cost = 1000 });
-                        currentNodes[3].next.Add(new Helper.DijkstraaSolver.GraphEdge() { to = currentNodes[0], cost = 1000 });
-                        currentNodes[3].next.Add(new Helper.DijkstraaSolver.GraphEdge() { to = currentNodes[2], cost = 1000 });
+                        currentNodes[0].next.Add(new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[0], to = currentNodes[1], cost = 1000 });
+                        currentNodes[0].next.Add(new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[0], to = currentNodes[3], cost = 1000 });
+                        currentNodes[1].next.Add(new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[1], to = currentNodes[0], cost = 1000 });
+                        currentNodes[1].next.Add(new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[1], to = currentNodes[2], cost = 1000 });
+                        currentNodes[2].next.Add(new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[2], to = currentNodes[1], cost = 1000 });
+                        currentNodes[2].next.Add(new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[2], to = currentNodes[3], cost = 1000 });
+                        currentNodes[3].next.Add(new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[3], to = currentNodes[0], cost = 1000 });
+                        currentNodes[3].next.Add(new Helper.DijkstraaSolver.GraphEdge() { from = currentNodes[3], to = currentNodes[2], cost = 1000 });
                     }
                 }
             }
