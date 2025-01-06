@@ -77,9 +77,9 @@ namespace AdventOfCode
                 if (!shortestPathElements.Contains(pathElement))
                 {
                     shortestPathElements.Add(pathElement);
-                    foreach (MazeNode pred in current.predecessors.Cast<MazeNode>())
+                    foreach (IGraphEdge pred in current.predecessors)
                     {
-                        queue.Enqueue(pred);
+                        queue.Enqueue((MazeNode)pred.From);
                     }
                 }
             }
@@ -166,9 +166,9 @@ namespace AdventOfCode
                 if (!shortestPathElements.Contains(pathElement))
                 {
                     shortestPathElements.Add(pathElement);
-                    foreach (MazeNode pred in current.predecessors.Cast<MazeNode>())
+                    foreach (IGraphEdge pred in current.predecessors)
                     {
-                        queue.Enqueue(pred);
+                        queue.Enqueue((MazeNode)pred.From);
                     }
                 }
             }
