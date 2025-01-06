@@ -17,9 +17,9 @@ namespace AdventOfCode
             yield return new Day05_Solution();
             yield return new Day06_Solution();
             yield return new Day07_Solution();
-            //yield return new Day08_Solution();
-            //yield return new Day09_Solution();
-            //yield return new Day10_Solution();
+            yield return new Day08_Solution();
+            yield return new Day09_Solution();
+            yield return new Day10_Solution();
             //yield return new Day11_Solution();
             //yield return new Day12_Solution();
             //yield return new Day13_Solution();
@@ -29,6 +29,9 @@ namespace AdventOfCode
             //yield return new Day17_Solution();
             //yield return new Day18_Solution();
             //yield return new Day19_Solution();
+            //yield return new Day20_Solution();
+            //yield return new Day21_Solution();
+            //yield return new Day22_Solution();
         }
 
         [Benchmark]

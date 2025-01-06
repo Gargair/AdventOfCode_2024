@@ -37,7 +37,7 @@
             return null;
         }
 
-        public static Tuple<int,int>? FindFirstElement<T>(T[,] matrix, T element)
+        public static Tuple<int, int>? FindFirstElement<T>(T[,] matrix, T element)
         {
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
@@ -94,6 +94,38 @@
                 }
             }
             return true;
+        }
+
+        public static long CountElement<T>(T[][] matrix, T element)
+        {
+            long count = 0;
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    if (EqualityComparer<T>.Default.Equals(matrix[i][j], element))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public static long CountElement<T>(T[,] matrix, T element)
+        {
+            long count = 0;
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (EqualityComparer<T>.Default.Equals(matrix[i, j], element))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
         }
     }
 }
