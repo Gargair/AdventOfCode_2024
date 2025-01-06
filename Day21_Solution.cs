@@ -3,7 +3,7 @@ using static AdventOfCode.Helper.DijkstraaSolver;
 
 namespace AdventOfCode
 {
-    internal partial class Day21_Solution : IDaySolution<Day21_Input, long>
+    internal partial class Day21_Solution : IDaySolution
     {
         public Day21_Input LoadData(string inputFolder)
         {
@@ -19,8 +19,9 @@ namespace AdventOfCode
             };
         }
 
-        public long Part1(Day21_Input input)
+        public override string Part1(string inputPath)
         {
+            Day21_Input input = LoadData(inputPath);
             // Need to be more performant to beat part 2 reasonable
             long sum = 0;
             foreach (string line in input.inputs)
@@ -44,12 +45,13 @@ namespace AdventOfCode
                 //Console.WriteLine($"\t{number} * {minimum} = {number * minimum}");
                 sum += number * minimum;
             }
-            return sum;
+            return sum.ToString();
         }
 
-        public long Part2(Day21_Input input)
+        public override string Part2(string inputPath)
         {
-            return 0;
+            Day21_Input input = LoadData(inputPath);
+            return "";
         }
 
         private static IEnumerable<string> WorkInput(string line, Dictionary<char, Dictionary<char, char[][]>> dict)

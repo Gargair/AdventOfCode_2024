@@ -28,10 +28,14 @@
         }
     }
 
-    public interface IDaySolution<T, O>
+    public abstract class IDaySolution
     {
-        T LoadData(string inputFolder);
-        O Part1(T input);
-        O Part2(T input);
+        public abstract string Part1(string inputFolder);
+        public abstract string Part2(string inputFolder);
+
+        public override string ToString()
+        {
+            return this.GetType().Name;
+        }
     }
 }

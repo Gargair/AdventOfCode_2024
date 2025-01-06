@@ -1,14 +1,15 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day05_Solution : Helper.IDaySolution<string[], long>
+    internal class Day05_Solution : Helper.IDaySolution
     {
         public string[] LoadData(string inputPath)
         {
             return File.ReadAllLines(inputPath + "/Day05.txt");
         }
 
-        public long Part1(string[] lines)
+        public override string Part1(string inputPath)
         {
+            string[] lines = LoadData(inputPath);
             List<int[]> pageOrdering = [];
             List<int[]> updates = [];
             bool ordering = true;
@@ -38,11 +39,12 @@
                     count += upd[(upd.Length - 1) / 2];
                 }
             }
-            return count;
+            return count.ToString();
         }
 
-        public long Part2(string[] lines)
+        public override string Part2(string inputPath)
         {
+            string[] lines = LoadData(inputPath);
             List<int[]> pageOrdering = [];
             List<int[]> updates = [];
             bool ordering = true;
@@ -73,7 +75,7 @@
                     count += upd[(upd.Length - 1) / 2];
                 }
             }
-            return count;
+            return count.ToString();
         }
 
         private static bool IsValidOrder(int[] update, List<int[]> pageOrdering)

@@ -1,14 +1,15 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day07_Solution : Helper.IDaySolution<long[][], long>
+    internal class Day07_Solution : Helper.IDaySolution
     {
         public long[][] LoadData(string inputPath)
         {
             return File.ReadAllLines(inputPath + "/Day07.txt").Select(line => line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(n => n.EndsWith(':') ? long.Parse(n[..^1]) : long.Parse(n)).ToArray()).ToArray();
         }
 
-        public long Part1(long[][] equations)
+        public override string Part1(string inputPath)
         {
+            long[][] equations = LoadData(inputPath);
             long sum = 0;
             foreach (var eq in equations)
             {
@@ -18,11 +19,12 @@
                     sum += shouldResult;
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
-        public long Part2(long[][] equations)
+        public override string Part2(string inputPath)
         {
+            long[][] equations = LoadData(inputPath);
             long sum = 0;
             foreach (var eq in equations)
             {
@@ -32,7 +34,7 @@
                     sum += shouldResult;
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
         private static bool IsValidPart1(long[] equation, long targetValue, long current, int index)

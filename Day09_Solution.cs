@@ -2,15 +2,16 @@
 
 namespace AdventOfCode
 {
-    internal class Day09_Solution : Helper.IDaySolution<string, long>
+    internal class Day09_Solution : Helper.IDaySolution
     {
         public string LoadData(string inputPath)
         {
             return File.ReadAllText(inputPath + "/Day09.txt");
         }
 
-        public long Part1(string idNumber)
+        public override string Part1(string inputPath)
         {
+            string idNumber = LoadData(inputPath);
             long sum = 0;
             int rightIndex = idNumber.Length - 1;
             int rightAmount = ((byte)idNumber[rightIndex] - (byte)'0');
@@ -60,12 +61,12 @@ namespace AdventOfCode
                 fileSystemIndex++;
                 rightAmount--;
             }
-            // 6415184586041
-            return sum;
+            return sum.ToString();
         }
 
-        public long Part2(string idNumber)
+        public override string Part2(string inputPath)
         {
+            string idNumber = LoadData(inputPath);
             long sum = 0;
             bool[] filesConsumed = new bool[(idNumber.Length + 1) / 2];
             int leftIndex = 0;
@@ -117,8 +118,7 @@ namespace AdventOfCode
                 }
                 leftIndex++;
             }
-            // 6436819084274
-            return sum;
+            return sum.ToString();
         }
     }
 }

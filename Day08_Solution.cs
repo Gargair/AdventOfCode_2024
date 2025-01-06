@@ -1,14 +1,15 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day08_Solution : Helper.IDaySolution<char[][], long>
+    internal class Day08_Solution : Helper.IDaySolution
     {
         public char[][] LoadData(string inputPath)
         {
             return File.ReadAllLines(inputPath + "/Day08.txt").Select(line => line.ToCharArray()).ToArray();
         }
 
-        public long Part1(char[][] block)
+        public override string Part1(string inputPath)
         {
+            char[][] block = LoadData(inputPath);
             bool[] positionsFound = new bool[block.Length * block[0].Length];
             long count = 0;
             for (int i = 0; i < block.Length; i++)
@@ -60,11 +61,12 @@
                     }
                 }
             }
-            return count;
+            return count.ToString();
         }
 
-        public long Part2(char[][] block)
+        public override string Part2(string inputPath)
         {
+            char[][] block = LoadData(inputPath);
             bool[] positionsFound = new bool[block.Length * block[0].Length];
             long count = 0;
             for (int i = 0; i < block.Length; i++)
@@ -103,7 +105,7 @@
                     }
                 }
             }
-            return count;
+            return count.ToString();
         }
     }
 }

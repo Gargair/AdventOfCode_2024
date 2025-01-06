@@ -1,32 +1,34 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day11_Solution : Helper.IDaySolution<List<long>, long>
+    internal class Day11_Solution : Helper.IDaySolution
     {
         public List<long> LoadData(string inputPath)
         {
             return File.ReadAllText(inputPath + "/Day11.txt").Split(' ').Select(s => long.Parse(s)).ToList();
         }
 
-        public long Part1(List<long> stones)
+        public override string Part1(string inputPath)
         {
+            List<long> stones = LoadData(inputPath);
             long count = 0;
             Dictionary<Tuple<long, int>, long> cache = [];
             for (int i = 0; i < stones.Count; i++)
             {
                 count += BlinkResultRec(stones[i], 25, cache);
             }
-            return count;
+            return count.ToString();
         }
 
-        public long Part2(List<long> stones)
+        public override string Part2(string inputPath)
         {
+            List<long> stones = LoadData(inputPath);
             long count = 0;
             Dictionary<Tuple<long, int>, long> cache = [];
             for (int i = 0; i < stones.Count; i++)
             {
                 count += BlinkResultRec(stones[i], 75, cache);
             }
-            return count;
+            return count.ToString();
         }
 
         private static long BlinkResultRec(long stone, int blinkAmount, Dictionary<Tuple<long, int>, long> cache)

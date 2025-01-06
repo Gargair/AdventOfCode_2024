@@ -2,7 +2,7 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day19_Solution : Helper.IDaySolution<Day19_Input, long>
+    internal partial class Day19_Solution : Helper.IDaySolution
     {
         public Day19_Input LoadData(string inputFolder)
         {
@@ -15,8 +15,9 @@ namespace AdventOfCode
             };
         }
 
-        public long Part1(Day19_Input input)
+        public override string Part1(string inputPath)
         {
+            Day19_Input input = LoadData(inputPath);
             ConcurrentDictionary<int, ConcurrentDictionary<string, bool>> cache = [];
             int count = 0;
             foreach (char[] towel in input.towels)
@@ -31,18 +32,19 @@ namespace AdventOfCode
                     count++;
                 }
             }
-            return count;
+            return count.ToString();
         }
 
-        public long Part2(Day19_Input input)
+        public override string Part2(string inputPath)
         {
+            Day19_Input input = LoadData(inputPath);
             ConcurrentDictionary<int, ConcurrentDictionary<string, long>> cache = [];
             long count = 0;
             for (int i = 0; i < input.patterns.Length; i++)
             {
                 count += PatternAmountPossible(input.patterns[i], input.towels, 0, cache);
             }
-            return count;
+            return count.ToString();
         }
 
         public static bool IsPatternPossible(char[] pattern, char[][] towels, int startInPattern, ConcurrentDictionary<int, ConcurrentDictionary<string, bool>> patternPossible)

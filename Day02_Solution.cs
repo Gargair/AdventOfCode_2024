@@ -1,20 +1,22 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day02_Solution : Helper.IDaySolution<IEnumerable<int[]>, long>
+    internal class Day02_Solution : Helper.IDaySolution
     {
         public IEnumerable<int[]> LoadData(string inputPath)
         {
             return File.ReadAllLines(inputPath + "/Day02.txt").Select(line => line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(l => int.Parse(l)).ToArray());
         }
 
-        public long Part1(IEnumerable<int[]> reports)
+        public override string Part1(string inputPath)
         {
+            IEnumerable<int[]> reports = LoadData(inputPath);
             var validReports = reports.Where(IsValidReport);
-            return validReports.Count();
+            return validReports.Count().ToString();
         }
 
-        public long Part2(IEnumerable<int[]> reports)
+        public override string Part2(string inputPath)
         {
+            IEnumerable<int[]> reports = LoadData(inputPath);
             var validReports = reports.Where(report =>
             {
                 if (IsValidReport(report))
@@ -31,7 +33,7 @@
                 }
                 return false;
             });
-            return validReports.Count();
+            return validReports.Count().ToString();
         }
 
         private static bool IsValidReport(int[] report)

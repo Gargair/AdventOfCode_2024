@@ -1,14 +1,15 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day10_Solution : Helper.IDaySolution<byte[][], long>
+    internal class Day10_Solution : Helper.IDaySolution
     {
         public byte[][] LoadData(string inputPath)
         {
             return File.ReadAllLines(inputPath + "/Day10.txt").Select(line => line.Select(c => byte.Parse(c.ToString())).ToArray()).ToArray();
         }
 
-        public long Part1(byte[][] block)
+        public override string Part1(string inputPath)
         {
+            byte[][] block = LoadData(inputPath);
             long sum = 0;
             for (int i = 0; i < block.Length; i++)
             {
@@ -20,11 +21,12 @@
                     }
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
-        public long Part2(byte[][] block)
+        public override string Part2(string inputPath)
         {
+            byte[][] block = LoadData(inputPath);
             long sum = 0;
             for (int i = 0; i < block.Length; i++)
             {
@@ -36,7 +38,7 @@
                     }
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
         private static long DetermineTrailScore(byte[][] block, int startX, int startY)

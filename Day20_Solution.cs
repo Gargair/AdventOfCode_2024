@@ -2,7 +2,7 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day20_Solution : Helper.IDaySolution<Day20_Input, long>
+    internal partial class Day20_Solution : Helper.IDaySolution
     {
         public Day20_Input LoadData(string inputFolder)
         {
@@ -16,8 +16,9 @@ namespace AdventOfCode
             };
         }
 
-        public long Part1(Day20_Input input)
+        public override string Part1(string inputPath)
         {
+            Day20_Input input = LoadData(inputPath);
             var maze = input.maze;
 
             Tuple<int, int>? start = Helper.MatrixHelper.FindFirstElement(maze, 'S');
@@ -102,11 +103,12 @@ namespace AdventOfCode
                      })
                      .Select(cheat => Tuple.Create(cheat[0], cheat[^1]))
                      .Distinct()
-                     .Count();
+                     .Count().ToString();
         }
 
-        public long Part2(Day20_Input input)
+        public override string Part2(string inputPath)
         {
+            Day20_Input input = LoadData(inputPath);
             var maze = input.maze;
 
             Tuple<int, int>? start = Helper.MatrixHelper.FindFirstElement(maze, 'S');
@@ -194,7 +196,7 @@ namespace AdventOfCode
                      })
                      .Select(cheat => Tuple.Create(cheat[0], cheat[^1]))
                      .Distinct()
-                     .Count();
+                     .Count().ToString();
         }
 
         private static long? ShortestPathLength(char[][] maze)

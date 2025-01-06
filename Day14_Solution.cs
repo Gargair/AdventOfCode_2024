@@ -2,7 +2,7 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day14_Solution : Helper.IDaySolution<Day14_Input, long>
+    internal partial class Day14_Solution : Helper.IDaySolution
     {
         public Day14_Input LoadData(string inputPath)
         {
@@ -21,8 +21,9 @@ namespace AdventOfCode
             };
         }
 
-        public long Part1(Day14_Input input)
+        public override string Part1(string inputPath)
         {
+            Day14_Input input = LoadData(inputPath);
             long quadrant1 = 0;
             long quadrant2 = 0;
             long quadrant3 = 0;
@@ -75,11 +76,12 @@ namespace AdventOfCode
                     }
                 }
             }
-            return quadrant1 * quadrant2 * quadrant3 * quadrant4;
+            return (quadrant1 * quadrant2 * quadrant3 * quadrant4).ToString();
         }
 
-        public long Part2(Day14_Input input)
+        public override string Part2(string inputPath)
         {
+            Day14_Input input = LoadData(inputPath);
             IEnumerable<Robot> robots = input.robots;
 
             int stepNumber = 0;
@@ -145,7 +147,7 @@ namespace AdventOfCode
                 return false;
             }).First();
 
-            return stepNumber;
+            return stepNumber.ToString();
         }
 
         private static IEnumerable<Robot> ParseRobots(IEnumerable<string> lines)

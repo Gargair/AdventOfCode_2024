@@ -2,7 +2,7 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day15_Solution : Helper.IDaySolution<Day15_Input, long>
+    internal partial class Day15_Solution : Helper.IDaySolution
     {
         public Day15_Input LoadData(string inputPath)
         {
@@ -14,8 +14,9 @@ namespace AdventOfCode
             };
         }
 
-        public long Part1(Day15_Input input)
+        public override string Part1(string inputPath)
         {
+            Day15_Input input = LoadData(inputPath);
             Tuple<int, int>? current = Helper.MatrixHelper.FindFirstElement(input.warehouse, '@');
             if (current == null)
             {
@@ -36,11 +37,12 @@ namespace AdventOfCode
                     }
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
-        public long Part2(Day15_Input input)
+        public override string Part2(string inputPath)
         {
+            Day15_Input input = LoadData(inputPath);
             char[,] warehouse = new char[input.warehouse.Length, input.warehouse[0].Length * 2];
             for (int i = 0; i < input.warehouse.Length; i++)
             {
@@ -88,7 +90,7 @@ namespace AdventOfCode
                     }
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
         private static Tuple<int, int> MoveInDirection(char[][] warehouse, int currentX, int currentY, char direction)

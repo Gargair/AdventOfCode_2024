@@ -3,7 +3,7 @@ using static AdventOfCode.Helper.DijkstraaSolver;
 
 namespace AdventOfCode
 {
-    internal partial class Day18_Solution : Helper.IDaySolution<Day18_Input, string>
+    internal partial class Day18_Solution : Helper.IDaySolution
     {
         public Day18_Input LoadData(string inputFolder)
         {
@@ -27,8 +27,9 @@ namespace AdventOfCode
             };
         }
 
-        public string Part1(Day18_Input input)
+        public override string Part1(string inputPath)
         {
+            Day18_Input input = LoadData(inputPath);
             bool[,] field = new bool[input.Size, input.Size];
             for (int i = 0; i < input.Part1Amount; i++)
             {
@@ -40,8 +41,9 @@ namespace AdventOfCode
             return end.distance!.Value.ToString();
         }
 
-        public string Part2(Day18_Input input)
+        public override string Part2(string inputPath)
         {
+            Day18_Input input = LoadData(inputPath);
             bool[,] field = new bool[input.Size, input.Size];
             foreach (int[] pos in input.Positions)
             {

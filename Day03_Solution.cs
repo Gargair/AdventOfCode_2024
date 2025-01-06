@@ -2,15 +2,16 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day03_Solution : Helper.IDaySolution<string, long>
+    internal partial class Day03_Solution : Helper.IDaySolution
     {
         public string LoadData(string inputPath)
         {
             return File.ReadAllText(inputPath + "/Day03.txt");
         }
 
-        public long Part1(string input)
+        public override string Part1(string inputPath)
         {
+            string input = LoadData(inputPath);
             MatchCollection matches = RegExPart1().Matches(input);
             return matches.Select(match =>
             {
@@ -18,11 +19,12 @@ namespace AdventOfCode
                 int left = int.Parse(capturegroups["left"].Value);
                 int right = int.Parse(capturegroups["right"].Value);
                 return left * right;
-            }).Sum();
+            }).Sum().ToString();
         }
 
-        public long Part2(string input)
+        public override string Part2(string inputPath)
         {
+            string input = LoadData(inputPath);
             MatchCollection matches = RegExPart2().Matches(input);
             long result = 0;
             bool enabled = true;
@@ -44,7 +46,7 @@ namespace AdventOfCode
                     result += left * right;
                 }
             }
-            return result;
+            return result.ToString();
         }
 
         [GeneratedRegex("mul\\((?'left'\\d{1,3}),(?'right'\\d{1,3})\\)")]

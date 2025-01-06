@@ -1,25 +1,27 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day06_Solution : Helper.IDaySolution<char[][], long>
+    internal class Day06_Solution : Helper.IDaySolution
     {
         public char[][] LoadData(string inputPath)
         {
             return File.ReadAllLines(inputPath + "/Day06.txt").Select(line => line.ToCharArray()).ToArray();
         }
 
-        public long Part1(char[][] block)
+        public override string Part1(string inputPath)
         {
+            char[][] block = LoadData(inputPath);
             Tuple<int, int>? start = Helper.MatrixHelper.FindFirstElement(block, '^');
             if (start == null)
             {
                 throw new Exception("Start not found");
             }
             DeterminePath(block, [start.Item1, start.Item2], out List<long> positionsVisited);
-            return positionsVisited.Count;
+            return positionsVisited.Count.ToString();
         }
 
-        public long Part2(char[][] block)
+        public override string Part2(string inputPath)
         {
+            char[][] block = LoadData(inputPath);
             Tuple<int, int>? start = Helper.MatrixHelper.FindFirstElement(block, '^');
             if (start == null)
             {
@@ -35,7 +37,7 @@
                 int i = (int)(position / blockWidth);
 
                 return DetermineLoop(block, [start.Item1, start.Item2], i, j);
-            }).Count();
+            }).Count().ToString();
         }
 
         private static bool DetermineLoop(char[][] block, int[] start, int blockedX, int blockedY)

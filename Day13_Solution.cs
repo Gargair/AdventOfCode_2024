@@ -2,7 +2,7 @@
 
 namespace AdventOfCode
 {
-    internal partial class Day13_Solution : Helper.IDaySolution<IEnumerable<ClawMachine>, long>
+    internal partial class Day13_Solution : Helper.IDaySolution
     {
         public IEnumerable<ClawMachine> LoadData(string inputPath)
         {
@@ -44,8 +44,9 @@ namespace AdventOfCode
             yield return machine;
         }
 
-        public long Part1(IEnumerable<ClawMachine> machines)
+        public override string Part1(string inputPath)
         {
+            IEnumerable<ClawMachine> machines = LoadData(inputPath);
             // c1 * ax + c2 * bx = px
             // c1 * ay + c2 * by = py
 
@@ -81,11 +82,12 @@ namespace AdventOfCode
                     Console.WriteLine("Mutiple");
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
-        public long Part2(IEnumerable<ClawMachine> machines)
+        public override string Part2(string inputPath)
         {
+            IEnumerable<ClawMachine> machines = LoadData(inputPath);
             long sum = 0;
 
             foreach (ClawMachine machine in machines)
@@ -99,7 +101,7 @@ namespace AdventOfCode
                     if (top % dividend == 0)
                     {
                         long c2 = top / dividend;
-                        if((machine.prizeX - c2 * machine.bDeltaX) % machine.aDeltaX != 0)
+                        if ((machine.prizeX - c2 * machine.bDeltaX) % machine.aDeltaX != 0)
                         {
                             // c1 is fractional => no solution
                             continue;
@@ -118,7 +120,7 @@ namespace AdventOfCode
                     Console.WriteLine("Mutiple");
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
         [GeneratedRegex("(?'Type'[\\w\\s]+): X[\\+=](?'X'\\d+), Y[\\+=](?'Y'\\d+)")]

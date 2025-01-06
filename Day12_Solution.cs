@@ -1,14 +1,15 @@
 ﻿namespace AdventOfCode
 {
-    internal class Day12_Solution : Helper.IDaySolution<char[][], long>
+    internal class Day12_Solution : Helper.IDaySolution
     {
         public char[][] LoadData(string inputPath)
         {
             return File.ReadAllLines(inputPath + "/Day12.txt").Select(s => s.ToCharArray()).ToArray();
         }
 
-        public long Part1(char[][] plots)
+        public override string Part1(string inputPath)
         {
+            char[][] plots = LoadData(inputPath);
             bool[,] calculated = new bool[plots.Length, plots[0].Length];
             long sum = 0;
             for (int i = 0; i < plots.Length; i++)
@@ -21,11 +22,12 @@
                     }
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
-        public long Part2(char[][] plots)
+        public override string Part2(string inputPath)
         {
+            char[][] plots = LoadData(inputPath);
             bool[,] calculated = new bool[plots.Length, plots[0].Length];
             long sum = 0;
             for (int i = 0; i < plots.Length; i++)
@@ -38,7 +40,7 @@
                     }
                 }
             }
-            return sum;
+            return sum.ToString();
         }
 
         private static long CalculateRegionByPerimeter(char[][] plots, int startX, int startY, bool[,] calculated)

@@ -1,27 +1,27 @@
-﻿using System.Text.RegularExpressions;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode
 {
-    internal partial class Day16_Solution : Helper.IDaySolution<char[][], long>
+    internal partial class Day16_Solution : Helper.IDaySolution
     {
         public char[][] LoadData(string inputPath)
         {
             return File.ReadAllLines(inputPath + "/Day16.txt").Select(line => line.ToCharArray()).ToArray();
         }
 
-        public long Part1(char[][] maze)
+        public override string Part1(string inputPath)
         {
+            char[][] maze = LoadData(inputPath);
             BuildGraph(maze, out MazeNode start, out MazeNode[] ends);
             Helper.DijkstraaSolver.CalcDijkstraa(start);
-            return ends.Select(end => end.distance ?? -1).Where(dist => dist != -1).Min();
+            return ends.Select(end => end.distance ?? -1).Where(dist => dist != -1).Min().ToString();
         }
 
-        public long Part2(char[][] maze)
+        public override string Part2(string inputPath)
         {
+            char[][] maze = LoadData(inputPath);
             BuildGraph(maze, out MazeNode start, out MazeNode[] ends);
             Helper.DijkstraaSolver.CalcDijkstraa(start);
             MarkPaths(maze, ends.Where(end => end.distance.HasValue).MinBy(end => end.distance!.Value)!);
-            return maze.Select(column => column.Select(p => p == 'O' ? 1L : 0L).Sum()).Sum();
+            return maze.Select(column => column.Select(p => p == 'O' ? 1L : 0L).Sum()).Sum().ToString();
         }
 
         private class MazeNode : Helper.DijkstraaSolver.GraphNode

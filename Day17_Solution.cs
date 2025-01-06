@@ -1,11 +1,6 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode
 {
-    internal partial class Day17_Solution : Helper.IDaySolution<Day17_Input, string>
+    internal partial class Day17_Solution : Helper.IDaySolution
     {
         public Day17_Input LoadData(string inputPath)
         {
@@ -20,13 +15,15 @@ namespace AdventOfCode
             };
         }
 
-        public string Part1(Day17_Input input)
+        public override string Part1(string inputPath)
         {
+            Day17_Input input = LoadData(inputPath);
             return string.Join(',', RunProgram(input.Program, input.RegisterA, input.RegisterB, input.RegisterC));
         }
 
-        public string Part2(Day17_Input input)
+        public override string Part2(string inputPath)
         {
+            Day17_Input input = LoadData(inputPath);
             string solution = string.Join(',', input.Program);
             if (!solution.EndsWith("5,5,3,0"))
             {
